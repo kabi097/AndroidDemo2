@@ -29,6 +29,15 @@ public class MainActivity extends AppCompatActivity implements EventFragment.OnL
                 startActivity(addIntent);
             }
         });
+        FloatingActionButton fab_photo = findViewById(R.id.fab_photo);
+        fab_photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent addIntent = new Intent(getApplicationContext(), AddActivity.class);
+                addIntent.putExtra("photo", true);
+                startActivity(addIntent);
+            }
+        });
     }
 
     @Override
