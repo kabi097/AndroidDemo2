@@ -1,7 +1,10 @@
 package com.example.recyclerview2;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +15,12 @@ import android.view.MenuItem;
 
 import com.example.recyclerview2.dummy.DummyContent;
 
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity implements EventFragment.OnListFragmentInteractionListener {
+
+    static final int REQUEST_ADD = 1;
+    static final int REQUEST_ADD_WITH_PHOTO = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements EventFragment.OnL
             @Override
             public void onClick(View view) {
                 Intent addIntent = new Intent(getApplicationContext(), AddActivity.class);
-                startActivity(addIntent);
+                startActivityForResult(addIntent, REQUEST_ADD);
             }
         });
         FloatingActionButton fab_photo = findViewById(R.id.fab_photo);
@@ -35,10 +43,26 @@ public class MainActivity extends AppCompatActivity implements EventFragment.OnL
             public void onClick(View v) {
                 Intent addIntent = new Intent(getApplicationContext(), AddActivity.class);
                 addIntent.putExtra("photo", true);
-                startActivity(addIntent);
+                startActivityForResult(addIntent, REQUEST_ADD_WITH_PHOTO);
             }
         });
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_ADD && resultCode == RESULT_OK) {
+            String name = data.getStringExtra("name");
+            String description = data.getStringExtra("description");
+            String date = data.getStringExtra("date");
+
+        } else if (requestCode == REQUEST_ADD_WITH_PHOTO && resultCode == RESULT_OK) {
+            String name = data.getStringExtra("name");
+            String description = data.getStringExtra("description");
+            String date = data.getStringExtra("date");
+            String photo = data.getStringExtra("photo");
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -58,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements EventFragment.OnL
     }
 
     @Override
-    public void onListFragmentInteraction(Event item) {
+    public void onListFragmentInteraction(Event item, boolean delete) {
 
     }
 }

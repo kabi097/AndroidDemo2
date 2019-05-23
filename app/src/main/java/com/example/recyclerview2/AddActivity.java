@@ -1,8 +1,10 @@
 package com.example.recyclerview2;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
@@ -17,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import static android.os.Environment.DIRECTORY_PICTURES;
 
 import java.io.File;
 import java.io.IOException;
@@ -55,21 +58,29 @@ public class AddActivity extends AppCompatActivity implements AddFragment.OnData
                     startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
                 }
             }
-
         } else {
-            setContentView(R.layout.activity_add);
+            TypedArray images = getResources().obtainTypedArray(R.array.loading_images);
+            int choice = (int) (Math.random() * images.length());
+            getIntent().putExtra("resource_image", images.getResourceId(choice, R.drawable.event1));
+            images.recycle();
         }
+        setContentView(R.layout.activity_add);
     }
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            try {
-                mImageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.parse(mCurrentPhotoPath));
-                mImageView.setImageBitmap(mImageBitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
+        if (requestCode == REQUEST_IMAGE_CAPTURE) {
+            if (resultCode == RESULT_OK) {
+                try {
+                    mImageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.parse(mCurrentPhotoPath));
+                    mImageView.setImageBitmap(mImageBitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                setResult(Activity.RESULT_CANCELED, getParentActivityIntent());
+                finish();
             }
         }
     }
@@ -80,24 +91,28 @@ public class AddActivity extends AppCompatActivity implements AddFragment.OnData
             getIntent().putExtra("name", name);
             getIntent().putExtra("description", description);
             getIntent().putExtra("date", date);
+            if (mCurrentPhotoPath != null) {
+                getIntent().putExtra("photo", mCurrentPhotoPath);
+            }
             finish();
         }
     }
+
 
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES);
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
-                imageFileName,  // prefix
-                ".jpg",         // suffix
-                storageDir      // directory
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
         );
 
         // Save a file: path for use with ACTION_VIEW intents
-        mCurrentPhotoPath = "file:" + image.getAbsolutePath();
+        mCurrentPhotoPath = image.getAbsolutePath();
         return image;
     }
+
 }

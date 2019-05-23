@@ -1,10 +1,13 @@
 package com.example.recyclerview2;
 
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.recyclerview2.EventFragment.OnListFragmentInteractionListener;
@@ -39,10 +42,25 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.mItem = mValues.get(position);
         holder.label.setText(mValues.get(position).getName());
-        holder.image.setImageResource(mValues.get(position).getImage_resource());
+        if (mValues.get(position).isHas_photo()) {
+            holder.image.setImageURI(Uri.parse(mValues.get(position).getPhoto_uri()));
+        } else {
+            holder.image.setImageResource(mValues.get(position).getImage_resource());
+        }
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(300, 300);
+        holder.image.setLayoutParams(layoutParams);
+
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mValues.remove(position);
+                notifyItemRemoved(position);
+                mListener.onListFragmentInteraction(holder.mItem, true);
+            }
+        });
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,7 +68,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+                    mListener.onListFragmentInteraction(holder.mItem, false);
                 }
             }
         });
@@ -65,6 +83,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         public final View mView;
         public final ImageView image;
         public final TextView label;
+        public final ImageView delete;
         public Event mItem;
 
         public ViewHolder(View view) {
@@ -72,6 +91,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             mView = view;
             label = (TextView) view.findViewById(R.id.label);
             image = (ImageView) view.findViewById(R.id.image);
+            delete = (ImageView) view.findViewById(R.id.delete_icon);
         }
 
         @Override

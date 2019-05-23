@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="loading_images">
+        <item>@drawable/event1</item>
+        <item>@drawable/event2</item>
+        <item>@drawable/event3</item>
+        <item>@drawable/event4</item>
+        <item>@drawable/event5</item>
+        <item>@drawable/event6</item>
+        <item>@drawable/event7</item>
+        <item>@drawable/event8</item>
+        <item>@drawable/event9</item>
+        <item>@drawable/event10</item>
+    </array>
+</resources>

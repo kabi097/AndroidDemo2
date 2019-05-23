@@ -1,5 +1,7 @@
 package com.example.recyclerview2;
 
+import android.net.Uri;
+
 import java.util.Date;
 
 public class Event {
@@ -7,12 +9,16 @@ public class Event {
     public int image_resource;
     public Date date;
     public String description;
+    public String photo_uri;
+    private boolean has_photo;
 
-    public Event(String name, int image_resource, Date date, String description) {
+
+    public Event(String name, Date date, String description) {
         this.name = name;
         this.image_resource = image_resource;
         this.date = date;
         this.description = description;
+        has_photo = false;
     }
 
     public String getName() {
@@ -51,4 +57,21 @@ public class Event {
     public String toString() {
         return name;
     }
+
+    public String getPhoto_uri() {
+        return photo_uri;
+    }
+
+    public void setPhoto_uri(String photo_uri) {
+        this.photo_uri = photo_uri;
+    }
+
+    public boolean isHas_photo() {
+        return has_photo;
+    }
+
+    public void setHas_photo(boolean has_photo) {
+        this.has_photo = has_photo;
+    }
+
 }
