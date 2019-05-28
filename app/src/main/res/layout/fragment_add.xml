@@ -12,8 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Tytuł" />
+        android:hint="Tytuł"
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/description"
@@ -21,8 +21,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Opis" />
+        android:hint="Opis"
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/date"
@@ -30,8 +30,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:ems="10"
-        android:inputType="date"
-        tools:text="Data " />
+        android:hint="Data"
+        android:clickable="true"
+        android:focusable="false"
+        android:cursorVisible="false"
+        android:focusableInTouchMode="false"
+        android:inputType="date" />
 
     <Button
         android:id="@+id/confirm_button"

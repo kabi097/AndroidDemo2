@@ -2,18 +2,19 @@ package com.example.recyclerview2;
 
 import android.net.Uri;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Event {
+public class Event implements Serializable {
     public String name;
     public int image_resource;
-    public Date date;
+    public String date;
     public String description;
     public String photo_uri;
     private boolean has_photo;
 
 
-    public Event(String name, Date date, String description) {
+    public Event(String name, String date, String description) {
         this.name = name;
         this.image_resource = image_resource;
         this.date = date;
@@ -37,11 +38,11 @@ public class Event {
         this.image_resource = image_resource;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

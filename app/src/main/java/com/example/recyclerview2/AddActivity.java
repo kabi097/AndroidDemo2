@@ -94,6 +94,7 @@ public class AddActivity extends AppCompatActivity implements AddFragment.OnData
             if (mCurrentPhotoPath != null) {
                 getIntent().putExtra("photo", mCurrentPhotoPath);
             }
+            setResult(RESULT_OK, getIntent());
             finish();
         }
     }

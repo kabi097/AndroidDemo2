@@ -1,5 +1,6 @@
 package com.example.recyclerview2;
 
+import android.content.Context;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
@@ -58,6 +59,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             public void onClick(View v) {
                 mValues.remove(position);
                 notifyItemRemoved(position);
+                notifyItemRangeChanged(position, mValues.size());
                 mListener.onListFragmentInteraction(holder.mItem, true);
             }
         });
@@ -105,12 +107,10 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     }
 
     public void readFromJson(String json) {
-//        mValues.add(new Gson().fromJson(json, new TypeToken<ArrayList<Event>>(){}.getType()));
         mValues.clear();
         for (Event event : new ArrayList<Event>(Arrays.asList(new Gson().fromJson(json, Event[].class)))) {
             mValues.add(event);
         }
         notifyItemChanged(mValues.size()-1);
-        //notifyDataSetChanged();
     }
 }

@@ -26,6 +26,11 @@ public class EventFragment extends Fragment {
 
     // TODO: Customize parameters
     private int mColumnCount = 1;
+
+    public EventAdapter getEventAdapter() {
+        return eventAdapter;
+    }
+
     private EventAdapter eventAdapter;
 
     private OnListFragmentInteractionListener mListener;
@@ -62,11 +67,16 @@ public class EventFragment extends Fragment {
 //            sample.add(new Event("Premiera filmu Jacht w reż. Andrzeja Kakaowego", R.drawable.ic_event_note_black_24dp, new Date(), "Wyjątkowe wydarzenie w naszej okolicy"));
             eventAdapter = new EventAdapter(sample, mListener);
             recyclerView.setAdapter(eventAdapter);
-            eventAdapter.readFromJson("[{'date':'May 18, 2019 6:58:42 PM','description':'Koncert z okazji 25-lecia gminy','image_resource':" + R.drawable.event1 + ",'name':'Koncert zespołu Enej'},{'date':'May 18, 2019 6:58:42 PM','description':'Wyjątkowe wydarzenie w naszej okolicy','image_resource':" + R.drawable.event2 + ",'name':'Premiera filmu Jacht w reż. Andrzeja Kakaowego'}]");
+//            eventAdapter.readFromJson("[{'date':'May 18, 2019 6:58:42 PM','description':'Koncert z okazji 25-lecia gminy','image_resource':" + R.drawable.event1 + ",'name':'Koncert zespołu Enej'},{'date':'May 18, 2019 6:58:42 PM','description':'Wyjątkowe wydarzenie w naszej okolicy','image_resource':" + R.drawable.event2 + ",'name':'Premiera filmu Jacht w reż. Andrzeja Kakaowego'}]");
         }
+
+
         return view;
     }
 
+    public void loadJson(String json) {
+        eventAdapter.readFromJson(json);
+    }
 
     @Override
     public void onAttach(Context context) {
